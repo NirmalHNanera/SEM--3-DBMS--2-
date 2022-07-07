@@ -1,0 +1,216 @@
+-- 1--CREATING PROCEDURE FOR SELECTING ALL COLUMNS
+--CityID, CityName, Pincode, CityRemarks, StateID, StateName
+	CREATE PROCEDURE PR_MST_City_SELECTALL
+	AS
+	BEGIN
+		SELECT City_Id,CityName,Pincode,MST_City.State_Id,CityRemarks,State_Name
+		FROM 
+		MST_City INNER JOIN MST_State 
+		ON
+		MST_City.State_Id=MST_State.State_Id
+	END
+
+EXEC PR_MST_City_SELECTALL
+
+
+
+--2--CREATING PROCEDURE FOR INSERTING DATA
+
+CREATE PROCEDURE PR_MST_City_InsertAll
+	@CITY_ID    		int,
+	@CITYNAME   		varchar(250),
+	@PINCODE    		varchar(6),
+	@STATE_ID   		int,
+	@CITYREMARKS		varchar(500)
+AS
+BEGIN
+		INSERT INTO MST_CITY
+		(
+		CITY_ID,    
+		CITYNAME,  
+		PINCODE,    
+		STATE_ID,   
+		CITYREMARKS
+		)
+		values
+		(
+		@CITY_ID,    
+		@CITYNAME,   
+		@PINCODE,    
+   		@STATE_ID,   
+		@CITYREMARKS
+		)
+END
+
+--excecution
+	PR_MST_City_InsertAll 6,surat,360036,1,Bad
+	select * from MST_City
+
+
+
+--3--CREATING PROCEDURE FOR UPDATING
+
+CREATE PROCEDURE PR_MST_City_UPDATE
+	@CityId		int,
+	@CityName	varchar(250),
+	@Pincode	varchar(6),
+	@State_Id	int,
+	@CityRemarks varchar(500)
+as
+Begin
+Update MST_City set
+	
+	CityName=@CityName,
+	Pincode=@Pincode,
+	State_Id=@State_Id,
+	CityRemarks=@CityRemarks
+	where
+	City_Id=@CityId
+
+End
+
+
+--excecution
+
+  PR_MST_City_Update 5,jaipur,350002,2,good
+	select * from MST_City
+
+--4--CREATING PROCEDURE FOR DELETING
+
+Create procedure PR_MST_City_delete
+	@CityId		int
+	
+as
+Begin
+Delete from MST_City 
+	where
+	City_Id=@CityId
+
+End
+--exec
+	PR_MST_City_delete 5
+	select * from MST_City
+
+ 
+--5--CREATING PROCEDURE FOR SELECT BY PRIMARY KEY 
+
+Create procedure PR_MST_City_selectByPk
+	@CityId		int
+	
+as
+Begin
+Select * from MST_City 
+	where
+	City_Id=@CityId
+
+End
+--exec
+	Pr_MST_City_SelectByPk 2
+	select * from MST_City
+
+
+
+--CREATING PROCEDURE FOR Select_By_Pincode_Start_With_360
+
+--6.Procedure for  SelectByPincodeStartWith360
+Create procedure PR_MST_City_StartWith360
+	@Pincode varchar(6)
+	
+as
+Begin
+Select * from MST_City 
+	
+	
+	where
+	Pincode=@Pincode
+	 and
+	Pincode like '360%'
+
+End
+--exec
+	PR_MST_City_Startwith360 360001
+	select * from MST_City
+
+
+
+--7--Procedure for  SelectByPincodeStartWith360
+
+
+Create procedure PR_MST_City_SelectByCityNamePincode
+	@Pincode varchar(6),
+	@CityName varchar(250)
+	
+as
+Begin
+	Select * from MST_City
+	where
+	Pincode=@Pincode
+	 and
+	CityName=@CityName
+END
+ 
+ --exec
+	PR_MST_City_SelectByCityNamePincode 360001,rajkot
+	select * from MST_City
+
+
+
+--8--Procedure for Select_By_CityRemarks
+Create procedure PR_MST_City_SelectByCityremarks
+	
+	@CityRemarks varchar(250)
+	
+as
+Begin
+	Select * from MST_City 
+	where
+	CityRemarks=@CityRemarks
+
+End
+
+--exec
+	PR_MST_City_SelectByCityremarks good
+	Select * from MST_City 
+
+
+--9--Procedure for Select_By_StateID
+Create procedure PR_MST_City_SelectByStateId
+	
+	@StateId int
+	
+as
+Begin
+	Select * from MST_City 
+	where
+	State_Id=@StateId
+
+End
+--exec
+	PR_MST_City_SelectByStateId 2
+	select * from MST_City
+
+
+
+--10--Procedure for Select_By_StateID_CityID
+Create procedure PR_MST_City_SelectByStateIdCityId
+	
+	@CityId int,
+	@StateId int
+	
+as
+Begin
+	Select * from MST_City 
+	where
+	City_Id=@CityId
+	and
+	State_Id=@Stateid
+
+End
+--exec
+	PR_MST_City_SelectByStateIdCityId 2,1
+	select * from MST_City
+
+
+
+
+
