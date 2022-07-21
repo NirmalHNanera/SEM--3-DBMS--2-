@@ -1,0 +1,157 @@
+--1. All tables Insert, Update & Delete
+	
+	-- PR_Person_Insert 'ram', 'sarvaiya', 52000 ,'2021-01-03', 4, 14
+	-- PR_Person_Insert 'Rahul', 'Anshu', 56000, '1990-01-01', 1, 12
+	-- PR_Person_Insert 'Bhavin', 'Kamani', 25000, '1991-05-14', Null, 11
+	-- PR_Person_Insert 'Bhoomi', 'Patel', 39000, '2014-02-20', 1, 13
+	-- PR_Person_Insert 'Rohit', 'Rajgor', 17000, '1990-07-23', 2, 15
+	-- PR_Person_Insert 'Priya ', 'Mehta', 25000, '1990-10-18', 2, Null
+	-- PR_Person_Insert 'Neha', 'Trivedi', 18000, '2014-02-20', 3, 15
+	Create Procedure PR_Person_Insert
+	@Fname		varchar(100),
+	@Lname		varchar(100),
+	@salary		       decimal(8, 2),
+	@joindate	       datetime,
+	@dpartID	       int,
+	@designID	       int
+	AS
+	BEGIN
+		Insert into Person(
+			FirstName,	
+			LastName,	
+			Salary,		
+			JoiningDate,	
+			DepartmentID,
+			DesignationID
+		)
+
+		Values(
+			@Fname,	
+			@Lname,	
+			@salary,	
+			@joindate,
+			@dpartID,
+			@designID
+		)
+	End
+
+
+
+	-- PR_Department_Insert 'ME'
+	Create Procedure PR_Department_Insert
+	@Dpartname		varchar(100)
+	as 
+	Begin
+		Insert into Department(
+			DepartmentName
+		)
+
+		Values(
+			@Dpartname
+		)
+	End
+---------------------
+
+	-- PR_Designation_Insert 'Other'
+	Create Procedure PR_Designation_Insert
+	@DesignName		varchar(100)
+	as 
+	Begin
+		Insert into Designation(
+			DesignationName
+		)
+
+		Values(
+			@DesignName
+		)
+	End
+
+*********************************************************************************************************************************
+
+-- PR_Person_Update 106, 'SHYAM', 'SHARMA', 73400, '2003-06-30', 2, 14
+	Create Procedure PR_Person_Update
+	@workerID   int,
+	@Fname		varchar(100),
+	@Lname		varchar(100),
+	@salary		decimal(8, 2),
+	@joindate	datetime,
+	@dpartID	int,
+	@designID	int
+	as 
+	Begin
+			Update Person
+			Set
+				FirstName		=	@Fname,	
+				LastName		=	@Lname,	
+				Salary			=	@salary,
+				JoiningDate		=	@joindate,
+				DepartmentID		=	@dpartID,
+				DesignationID		=	@designID			
+								
+			Where
+				WorkerID	=	@workerID
+	End
+	******************************************************************
+
+	-- PR_Department_Update  4,'CSE'
+	Create Procedure PR_Department_Update
+	@DpartID		int,
+	@Dpartname		varchar(100)
+	as 
+	Begin
+		Update Department
+		Set
+			DepartmentName	= @Dpartname
+		Where
+			DepartmentID = @DpartID
+	End
+***************************************************************
+
+
+	-- PR_Designation_Update 12, 'Architecture'
+	Create Procedure PR_Designation_Update
+	@DesignID		int,
+	@DesignName		varchar(100)
+	as 
+	Begin
+		Update Designation
+		Set
+			DesignationName	=	@DesignName
+		Where
+			DesignationID	=	@DesignID
+	End
+  
+  
+  *********************************************************************************************************************************
+
+  
+  -- PR_Person_Delete 105
+	Create Procedure PR_Person_Delete
+	@workerID	int
+	as
+	Begin
+		Delete From Person
+		Where WorkerID	=	@workerID
+	End
+---------------------
+
+
+	-- PR_Department_Delete 5
+	Create Procedure PR_Department_Delete	
+	@dpartID	int
+	as
+	Begin
+		Delete From Department
+		Where DepartmentID	=	@dpartID
+	End
+---------------------
+
+
+	-- PR_Designation_Delete 16
+	Create Procedure PR_Designation_Delete	
+	@designID	int
+	as
+	Begin
+		Delete From Designation
+		Where DesignationID	=	@designID
+	End
