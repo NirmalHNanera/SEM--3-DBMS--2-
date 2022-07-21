@@ -1,0 +1,110 @@
+--2. All tables SelectAll (If foreign key is available than do write join and take columns on select list)
+
+	-- PR_Person_SelectAllwithFK
+	Create Procedure PR_Person_SelectAllwithFK
+	as
+	Begin
+		Select p.WorkerID, p.FirstName, p.LastName, p.JoiningDate, p.Salary,
+			   dp.DepartmentID, dp.DepartmentName, ds.DesignationID, ds.DesignationName
+		From Person p
+		Inner Join Department dp
+		on p.DepartmentID = dp.DepartmentID
+		Right Outer Join Designation ds
+		on p.DesignationID = ds.DesignationID
+	End
+
+
+
+
+--3. All tables SelectPK
+
+	-- PR_Person_SelectByPK 107
+	Create Procedure PR_Person_SelectByPK
+	@workerID	int
+	as
+	Begin
+		Select *
+		From Person
+		Where WorkerID = @workerID
+	End
+
+--==========================================
+
+	-- PR_Department_SelectByPK 1
+	Create Procedure PR_Department_SelectByPK
+	@departmentID	int
+	as
+	Begin
+		Select *
+		From Person
+		Where DepartmentID = @departmentID
+	End
+
+--==========================================
+
+	-- PR_Designation_SelectByPK 14
+	Create Procedure PR_Designation_SelectByPK
+	@designationID	int
+	as
+	Begin
+		Select *
+		From Person
+		Where DesignationID = @designationID
+	End
+
+
+
+
+--4. Create Procedure that takes Department Name & Designation Name as Input and Returns a table with Worker's First Name, Salary, Joining Date & Department Name.
+	
+	-- PR_Person_SelectBydpNameANDdsName 'Admin', 'Clerk'
+	Create Procedure PR_Person_SelectBydpNameANDdsName
+	@departmentName		varchar(100),
+	@desinationName		varchar(100)
+	as
+	Begin
+		Select p.FirstName, p.Salary, p.JoiningDate, dp.DepartmentName
+		From Person p
+		Inner Join Department dp
+		on p.DepartmentID = dp.DepartmentID
+		Inner Join Designation ds
+		on p.DesignationID = ds.DesignationID
+		Where dp.DepartmentName = @departmentName
+		and	  ds.DesignationName = @desinationName
+	End
+
+
+
+
+--5. Create Procedure that takes FirstName as an input parameter and display all the details of the worker with their department & designation name.
+
+	-- PR_Person_SelectByFirstName 'Bhoomi'
+	Create Procedure PR_Person_SelectByFirstName
+	@firstName	varchar(100)
+	as
+	Begin
+		Select p.WorkerID, p.FirstName, p.LastName, p.JoiningDate, p.Salary,
+			   dp.DepartmentID, dp.DepartmentName, ds.DesignationID, ds.DesignationName
+		From Person p
+		Inner Join Department dp
+		on p.DepartmentID = dp.DepartmentID
+		inner Join Designation ds
+		on p.DesignationID = ds.DesignationID
+		Where p.FirstName = @firstName
+	End
+
+
+
+
+--6. Create Procedure which displays department wise maximum, minimum & total salaries.
+
+	-- PR_Person_DepartmentWiseSalaries
+	Create Procedure PR_Person_DepartmentWiseSalaries
+	as
+	Begin
+		Select Distinct Department.DepartmentName, Max(Salary) as Max_Salary, Min(Salary) as Min_Salary, Sum(Salary) as Total_Salary
+		From Person
+		Inner Join Department
+		on Person.DepartmentID = Department.DepartmentID
+		Group by Department.DepartmentName
+	End
