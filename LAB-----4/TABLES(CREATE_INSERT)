@@ -1,0 +1,48 @@
+USE WORKER_INFO_342;
+Create Table DESIGNATION
+(
+	DesignationID		int				Primary Key  IDENTITY(11,1),
+	DesignationName		varchar(100)	Not Null	Unique
+)
+
+
+
+Create Table DEPARTMENT
+(
+	DepartmentID		int				Primary Key IDENTITY(1,1),
+	DepartmentName		varchar(100)	Not Null	Unique
+)
+
+Create Table PERSON
+(
+	WorkerID			int					Primary Key  IDENTITY(101,1),
+	FirstName			varchar(100)		Not Null,
+	LastName			varchar(100)		Not Null,
+	Salary				decimal(8, 2)		Not Null,
+	JoiningDate			datetime			Not Null,
+	DepartmentID		int					Foreign Key References Department(DEPARTMENTID),
+	DesignationID		int					Foreign Key	References DESIGNATION(DESIGNATIONID)
+)
+
+
+----INSERTING VALUES INTO TABLES----
+Insert into DESIGNATION Values ('JOBBER')
+Insert into DESIGNATION Values ('WELDER')
+Insert into DESIGNATION Values ('CLARK')
+Insert into DESIGNATION Values ('MANAGER')
+Insert into DESIGNATION Values ('CEO')
+
+
+Insert into DEPARTMENT Values ('ADMIN')
+Insert into DEPARTMENT Values ('IT')
+Insert into DEPARTMENT Values ('HR')
+Insert into DEPARTMENT Values ('ACCOUNT')
+
+
+Insert into PERSON Values ('Rahul', 'Anshu', 56000, '1990-01-01', 1, 12)
+Insert into PERSON Values ('Hardik', 'Hinsu', 18000, '1990-09-25', 2, 11)
+Insert into PERSON Values ('Bhavin', 'Kamani', 25000, '1991-05-14', Null, 11)
+Insert into PERSON Values ('Bhoomi', 'Patel', 39000, '2014-02-20', 1, 13)
+Insert into PERSON Values ('Rohit', 'Rajgor', 17000, '1990-07-23', 2, 15)
+Insert into PERSON Values ('Priya ', 'Mehta', 25000, '1990-10-18', 2, Null)
+Insert into PERSON Values ('Neha', 'Trivedi', 18000, '2014-02-20', 3, 15)
