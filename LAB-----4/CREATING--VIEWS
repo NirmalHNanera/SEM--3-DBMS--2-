@@ -1,0 +1,61 @@
+---- CREATING VIEWS -----
+
+--1. Create a view that display first 100 workers details.
+CREATE VIEW VW_TOP100
+	AS
+	SELECT TOP 100 * FROM PERSON
+
+SELECT * FROM VW_TOP100
+
+
+--2. Create a view that displays designation wise maximum, minimum & total salaries.
+
+	Create VieW  VW_Designation_Wise_Salaries
+	as
+	Select Distinct DesignationName, Max(Salary) as Max_Sal, Min(Salary) as Min_Sal, Sum(Salary) as Total_Sal
+	From Person
+	Inner Join Designation
+	on Person.DesignationID = Designation.DesignationID
+	Group by DesignationName
+
+	Select * From VW_Designation_Wise_Salaries
+
+
+
+--3. Create a view that displays Workerâ€™s first name with their salaries & joining date, it also displays duration column which is difference of joining date with respect to current date.
+
+	Create View VW_WorkerInfo
+	as
+	Select FirstName, Salary, JoiningDate, DateDiff(year, JoiningDate, getDate()) as Duration
+	From Person
+
+	Select * From VW_WorkerInfo
+
+
+
+--4. Create a view which shows department & designation wise total number of workers.
+
+	Create View VW_NumberOfWorker
+	as
+	Select Department.DepartmentName, Designation.DesignationName, Count(*) as Num_of_Worker
+	From Person
+	Left Outer Join Department
+	on Person.DepartmentID = Department.DepartmentID
+	Left Outer Join Designation
+	on Person.DesignationID = Designation.DesignationID
+	Group by Department.DepartmentName, Designation.DesignationName
+
+	Select * From VW_NumberOfWorker
+
+
+
+--5. Create a view that displays worker names who donâ€™t have either in any department or designation.
+
+	Create View VW_No_departmentORdesignation
+	as
+	Select FirstName, LastName
+	From Person
+	Where DepartmentID is Null 
+	OR DesignationID is Null
+
+	Select * From VW_No_departmentORdesignation
